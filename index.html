@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discovery Pathway – Student Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['DM Sans', 'sans-serif'], serif: ['Fraunces', 'serif'] },
+                    colors: {
+                        navy: { DEFAULT: '#0d1b3e', mid: '#1a2f5e', light: '#243e7a' },
+                        brand: { DEFAULT: '#1c4fbf', dark: '#0d2e82', cyan: '#00b4d8' },
+                        gold: { DEFAULT: '#c9943a', light: '#f0c96e', pale: '#fdf6e8' },
+                        cream: { DEFAULT: '#faf8f3', mid: '#f0ede4', dark: '#e4e0d4' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        input,
+        select,
+        textarea {
+            appearance: none;
+            -webkit-appearance: none;
+            transition: border-color .15s, box-shadow .15s, background .15s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #1c4fbf !important;
+            box-shadow: 0 0 0 3px rgba(28, 79, 191, .1);
+            background: white !important;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px !important;
+        }
+
+        .step-panel {
+            display: none;
+            animation: fadeUp .25s ease;
+        }
+
+        .step-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(8px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .radio-pill input {
+            display: none;
+        }
+
+        .radio-pill:has(input:checked) {
+            background: #1c4fbf;
+            border-color: #1c4fbf;
+            color: white;
+        }
+
+        .lang-pill {
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .lang-pill.selected {
+            background: #1c4fbf !important;
+            border-color: #1c4fbf !important;
+            color: white !important;
+        }
+
+        .dest-card input {
+            display: none;
+        }
+
+        .dest-card:has(input:checked) {
+            background: #1c4fbf;
+            border-color: #1c4fbf;
+        }
+
+        .dest-card:has(input:checked) .dest-label {
+            color: white;
+        }
+
+        .progress-bar-fill {
+            transition: width .4s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .field-error {
+            display: none;
+        }
+
+        .has-error .field-error {
+            display: block;
+        }
+
+        .has-error input,
+        .has-error select,
+        .has-error textarea {
+            border-color: #dc2626 !important;
+            background: #fef2f2 !important;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f0ede4;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1c4fbf;
+            border-radius: 3px;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(28, 79, 191, .3);
+            border-top-color: #1c4fbf;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .custom-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .custom-check input[type="checkbox"] {
+            display: none;
+        }
+
+        .check-box {
+            width: 22px;
+            height: 22px;
+            min-width: 22px;
+            border: 2.5px solid #1c4fbf;
+            border-radius: 6px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .15s;
+            margin-top: 1px;
+        }
+
+        .custom-check input:checked+.check-box {
+            background: #1c4fbf;
+            border-color: #1c4fbf;
+        }
+
+        .custom-check input:checked+.check-box svg {
+            display: block;
+        }
+
+        .check-box svg {
+            display: none;
+        }
+
+        .flag-img {
+            width: 36px;
+            height: 24px;
+            object-fit: cover;
+            border-radius: 3px;
+            margin: 0 auto 8px;
+            display: block;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .18);
+        }
+
+        .toggle-section {
+            overflow: hidden;
+            transition: max-height .35s ease, opacity .25s ease;
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .toggle-section.open {
+            max-height: 600px;
+            opacity: 1;
+        }
+
+        .fee-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #fdf6e8;
+            border: 1.5px solid #c9943a;
+            color: #a07020;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 5px 14px;
+            border-radius: 999px;
+        }
+
+        .pay-method-card {
+            cursor: pointer;
+            border: 2px solid #e4e0d4;
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all .18s;
+        }
+
+        .pay-method-card:hover {
+            border-color: #1c4fbf;
+        }
+
+        .pay-method-card.active {
+            border-color: #1c4fbf;
+            background: #f0f4ff;
+        }
+    </style>
+</head>
+
+<body class="bg-cream min-h-screen">
+
+    <!-- HEADER -->
+    <header class="bg-navy relative overflow-hidden">
+        <div class="absolute -top-16 -right-20 w-80 h-80 rounded-full bg-brand/10"></div>
+        <div class="absolute -bottom-10 left-10 w-44 h-44 rounded-full bg-brand-cyan/5"></div>
+        <div class="max-w-4xl mx-auto px-6 py-8 relative z-10 flex flex-col items-center text-center gap-4">
+            <img id="headerLogo" src="" alt="Discovery Pathway Logo" class="h-16 object-contain drop-shadow-lg" />
+            <p class="text-white/60 text-sm font-light tracking-widest uppercase mt-1">Student Registration &ndash;
+                Study Abroad Consultancy</p>
+            <div
+                class="flex items-center gap-2 bg-brand/25 border border-brand-cyan/30 text-brand-cyan text-xs font-semibold px-4 py-1.5 rounded-full">
+                <span class="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-pulse"></span>
+                Admissions Open 2026
+            </div>
+        </div>
+        <div class="max-w-4xl mx-auto px-6 pb-5 relative z-10 flex items-center gap-3">
+            <div class="flex-1 bg-white/10 rounded-full h-1.5 overflow-hidden">
+                <div id="progressBar" class="progress-bar-fill h-full bg-brand-cyan rounded-full" style="width:16.67%">
+                </div>
+            </div>
+            <span id="progressText" class="text-white/50 text-xs font-medium whitespace-nowrap">Step 1 of 6</span>
+        </div>
+    </header>
+
+    <!-- STEP TABS -->
+    <nav class="bg-white border-b border-cream-dark sticky top-0 z-50 shadow-sm">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="flex">
+                <button onclick="goToStep(1)"
+                    class="step-tab flex-1 flex flex-col items-center gap-1 py-3 px-2 border-b-2 border-transparent cursor-default"
+                    data-step="1">
+                    <div
+                        class="step-num w-6 h-6 rounded-full bg-cream-mid text-slate-400 text-xs font-bold flex items-center justify-center transition-all">
+                        1</div>
+                    <span
+                        class="step-lbl text-xs font-medium text-slate-400 uppercase tracking-wider hidden sm:block">Personal</span>
+                </button>
+                <button onclick="goToStep(2)"
+                    class="step-tab flex-1 flex flex-col items-center gap-1 py-3 px-2 border-b-2 border-transparent cursor-default"
+                    data-step="2">
+                    <div
+                        class="step-num w-6 h-6 rounded-full bg-cream-mid text-slate-400 text-xs font-bold flex items-center justify-center transition-all">
+                        2</div>
+                    <span
+                        class="step-lbl text-xs font-medium text-slate-400 uppercase tracking-wider hidden sm:block">Academic</span>
+                </button>
+                <button onclick="goToStep(3)"
+                    class="step-tab flex-1 flex flex-col items-center gap-1 py-3 px-2 border-b-2 border-transparent cursor-default"
+                    data-step="3">
+                    <div
+                        class="step-num w-6 h-6 rounded-full bg-cream-mid text-slate-400 text-xs font-bold flex items-center justify-center transition-all">
+                        3</div>
+                    <span
+                        class="step-lbl text-xs font-medium text-slate-400 uppercase tracking-wider hidden sm:block">Destination</span>
+                </button>
+                <button onclick="goToStep(4)"
+                    class="step-tab flex-1 flex flex-col items-center gap-1 py-3 px-2 border-b-2 border-transparent cursor-default"
+                    data-step="4">
+                    <div
+                        class="step-num w-6 h-6 rounded-full bg-cream-mid text-slate-400 text-xs font-bold flex items-center justify-center transition-all">
+                        4</div>
+                    <span
+                        class="step-lbl text-xs font-medium text-slate-400 uppercase tracking-wider hidden sm:block">Language</span>
+                </button>
+                <button onclick="goToStep(5)"
+                    class="step-tab flex-1 flex flex-col items-center gap-1 py-3 px-2 border-b-2 border-transparent cursor-default"
+                    data-step="5">
+                    <div
+                        class="step-num w-6 h-6 rounded-full bg-cream-mid text-slate-400 text-xs font-bold flex items-center justify-center transition-all">
+                        5</div>
+                    <span
+                        class="step-lbl text-xs font-medium text-slate-400 uppercase tracking-wider hidden sm:block">Payment</span>
+                </button>
+                <button onclick="goToStep(6)"
+                    class="step-tab flex-1 flex flex-col items-center gap-1 py-3 px-2 border-b-2 border-transparent cursor-default"
+                    data-step="6">
+                    <div
+                        class="step-num w-6 h-6 rounded-full bg-cream-mid text-slate-400 text-xs font-bold flex items-center justify-center transition-all">
+                        6</div>
+                    <span
+                        class="step-lbl text-xs font-medium text-slate-400 uppercase tracking-wider hidden sm:block">Review</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 py-10 pb-24">
+
+        <!-- SUCCESS -->
+        <div id="successScreen" class="hidden text-center py-20">
+            <div
+                class="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-green-100">
+                <svg class="w-12 h-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <img id="successLogo" src="" alt="Discovery Pathway" class="h-10 object-contain mx-auto mb-5 opacity-80" />
+            <h2 class="font-serif text-3xl font-semibold text-navy mb-3">Application Submitted!</h2>
+            <p class="text-slate-500 mb-2 text-base max-w-md mx-auto">Our counselor will contact you within <strong
+                    class="text-navy">24&ndash;48 hours</strong>.</p>
+            <p id="refNumber" class="text-brand font-semibold text-sm mt-2 mb-8"></p>
+            <div class="flex flex-wrap gap-3 justify-center">
+                <a href="http://admin.discoverypathway.edu.np"
+                    class="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-navy-mid transition-colors">Back
+                    to Portal</a>
+                <button onclick="resetForm()"
+                    class="inline-flex items-center gap-2 border border-cream-dark text-navy px-6 py-3 rounded-xl text-sm font-semibold hover:bg-cream-mid transition-colors">New
+                    Application</button>
+            </div>
+        </div>
+
+        <!-- STEP 1 PERSONAL -->
+        <div id="step1" class="step-panel active">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-11 h-11 bg-brand rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="font-serif text-2xl font-semibold text-navy">Personal Information</h2>
+                    <p class="text-slate-500 text-sm">Basic details about the student</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                <p
+                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5 pb-3 border-b border-cream-mid">
+                    Full Name &amp; Identity</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">First
+                            Name <span class="text-red-500">*</span></label><input type="text" id="firstName"
+                            placeholder="e.g. Aarav"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" /><span
+                            class="field-error text-xs text-red-600 mt-1">First name is required</span></div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Middle Name</label><input
+                            type="text" id="middleName" placeholder="Optional"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                    </div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Last
+                            Name <span class="text-red-500">*</span></label><input type="text" id="lastName"
+                            placeholder="e.g. Sharma"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" /><span
+                            class="field-error text-xs text-red-600 mt-1">Last name is required</span></div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Date
+                            of Birth <span class="text-red-500">*</span></label><input type="date" id="dob"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy" /><span
+                            class="field-error text-xs text-red-600 mt-1">Required</span></div>
+                    <div class="field"><label
+                            class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Nationality <span
+                                class="text-red-500">*</span></label><select id="nationality"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                            <option value="">Select</option>
+                            <option value="Nepali" selected>Nepali</option>
+                            <option value="Indian">Indian</option>
+                            <option value="Other">Other</option>
+                        </select><span class="field-error text-xs text-red-600 mt-1">Required</span></div>
+                    <div class="field"><label
+                            class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Gender <span
+                                class="text-red-500">*</span></label><select id="gender"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                            <option value="">Select</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Other</option>
+                            <option>Prefer not to say</option>
+                        </select><span class="field-error text-xs text-red-600 mt-1">Required</span></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                <p
+                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5 pb-3 border-b border-cream-mid">
+                    Contact Details</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Phone
+                            Number <span class="text-red-500">*</span></label>
+                        <div class="flex gap-2"><span
+                                class="px-3 py-2.5 bg-cream-mid border border-cream-dark rounded-xl text-sm text-slate-500 whitespace-nowrap font-medium">&#127475;&#127477;
+                                +977</span><input type="tel" id="phone" placeholder="98XXXXXXXX"
+                                class="flex-1 px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                        </div><span class="field-error text-xs text-red-600 mt-1">Required</span>
+                    </div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Email
+                            Address <span class="text-red-500">*</span></label><input type="email" id="email"
+                            placeholder="student@email.com"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" /><span
+                            class="field-error text-xs text-red-600 mt-1">Valid email is required</span></div>
+                    <div class="field sm:col-span-2"><label
+                            class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Permanent Address <span
+                                class="text-red-500">*</span></label><input type="text" id="address"
+                            placeholder="District, Province, Nepal"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" /><span
+                            class="field-error text-xs text-red-600 mt-1">Required</span></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                <p
+                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5 pb-3 border-b border-cream-mid">
+                    Parent / Guardian Information</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div class="field"><label
+                            class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Guardian Full Name
+                            <span class="text-red-500">*</span></label><input type="text" id="guardianName"
+                            placeholder="Father / Mother / Guardian"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" /><span
+                            class="field-error text-xs text-red-600 mt-1">Required</span></div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Relationship</label><select
+                            id="guardianRelation"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                            <option value="">Select</option>
+                            <option>Father</option>
+                            <option>Mother</option>
+                            <option>Guardian</option>
+                            <option>Spouse</option>
+                        </select></div>
+                    <div class="field"><label
+                            class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Guardian Phone <span
+                                class="text-red-500">*</span></label><input type="tel" id="guardianPhone"
+                            placeholder="98XXXXXXXX"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" /><span
+                            class="field-error text-xs text-red-600 mt-1">Required</span></div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Guardian
+                            Occupation</label><input type="text" id="guardianOccupation"
+                            placeholder="e.g. Business, Service"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end mt-8">
+                <button onclick="nextStep(1)"
+                    class="flex items-center gap-3 bg-brand hover:bg-brand-dark text-white px-8 py-3.5 rounded-xl text-sm font-semibold transition-colors shadow-sm">Continue
+                    to Academic Info <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg></button>
+            </div>
+        </div>
+
+        <!-- STEP 2 ACADEMIC -->
+        <div id="step2" class="step-panel">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-11 h-11 bg-brand rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path
+                            d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="font-serif text-2xl font-semibold text-navy">Academic Background</h2>
+                    <p class="text-slate-500 text-sm">Education history and qualifications</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                <p
+                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5 pb-3 border-b border-cream-mid">
+                    Highest Qualification</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div class="field"><label
+                            class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Education Level <span
+                                class="text-red-500">*</span></label><select id="eduLevel"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                            <option value="">Select level</option>
+                            <option>SEE (Grade 10)</option>
+                            <option>+2 / A-Level (Grade 12)</option>
+                            <option>Bachelor's Degree</option>
+                            <option>Master's Degree</option>
+                            <option>Diploma</option>
+                        </select><span class="field-error text-xs text-red-600 mt-1">Required</span></div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Field of Study /
+                            Stream</label><select id="stream"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                            <option value="">Select stream</option>
+                            <option>Science (PCB)</option>
+                            <option>Science (PCM)</option>
+                            <option>Commerce / Management</option>
+                            <option>Humanities / Arts</option>
+                            <option>Technical / Vocational</option>
+                            <option>Computer / IT</option>
+                            <option>Other</option>
+                        </select></div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Name
+                            of Institution <span class="text-red-500">*</span></label><input type="text"
+                            id="institution" placeholder="e.g. ABC Higher Secondary School"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" /><span
+                            class="field-error text-xs text-red-600 mt-1">Required</span></div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Board /
+                            University</label><input type="text" id="board"
+                            placeholder="e.g. NEB, TU, Pokhara University"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                    </div>
+                    <div class="field"><label
+                            class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Passing Year <span
+                                class="text-red-500">*</span></label><select id="passingYear"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                            <option value="">Select year</option>
+                        </select><span class="field-error text-xs text-red-600 mt-1">Required</span></div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">GPA /
+                            Percentage / Grade <span class="text-red-500">*</span></label><input type="text" id="gpa"
+                            placeholder="e.g. 3.6 GPA or 75%"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" /><span
+                            class="field-error text-xs text-red-600 mt-1">Required</span></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                <p
+                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5 pb-3 border-b border-cream-mid">
+                    Work Experience</p>
+                <div class="field mb-4">
+                    <label class="text-sm font-medium text-navy mb-2 block">Do you have work experience?</label>
+                    <div class="flex gap-3 flex-wrap">
+                        <label
+                            class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"
+                            onclick="toggleWork('Yes')"><input type="radio" name="workExp" value="Yes" /> Yes</label>
+                        <label
+                            class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"
+                            onclick="toggleWork('No')"><input type="radio" name="workExp" value="No" checked />
+                            No</label>
+                    </div>
+                </div>
+                <div id="workDetails" class="toggle-section">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Years of
+                                Experience</label><select id="workYears"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                                <option value="">Select</option>
+                                <option>Less than 1 year</option>
+                                <option>1-2 years</option>
+                                <option>2-5 years</option>
+                                <option>5+ years</option>
+                            </select></div>
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Job Title /
+                                Employer</label><input type="text" id="employer"
+                                placeholder="e.g. Software Developer at XYZ Ltd."
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                <p
+                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5 pb-3 border-b border-cream-mid">
+                    Passport Information</p>
+                <div class="field mb-4">
+                    <label class="text-sm font-medium text-navy mb-2 block">Do you have a valid passport?</label>
+                    <div class="flex gap-3 flex-wrap">
+                        <label
+                            class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"
+                            onclick="togglePassport('Yes')"><input type="radio" name="passport" value="Yes" />
+                            Yes</label>
+                        <label
+                            class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"
+                            onclick="togglePassport('No')"><input type="radio" name="passport" value="No" checked />
+                            No</label>
+                        <label
+                            class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"
+                            onclick="togglePassport('Applied')"><input type="radio" name="passport" value="Applied" />
+                            Applied</label>
+                    </div>
+                </div>
+                <div id="passportDetails" class="toggle-section">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Passport
+                                Number</label><input type="text" id="passportNumber" placeholder="e.g. PA1234567"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                        </div>
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Passport Expiry
+                                Date</label><input type="date" id="passportExpiry"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between mt-8">
+                <button onclick="prevStep(2)"
+                    class="flex items-center gap-2 border border-cream-dark text-navy px-6 py-3 rounded-xl text-sm font-semibold hover:bg-cream-mid transition-colors"><svg
+                        class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>Back</button>
+                <button onclick="nextStep(2)"
+                    class="flex items-center gap-3 bg-brand hover:bg-brand-dark text-white px-8 py-3.5 rounded-xl text-sm font-semibold transition-colors shadow-sm">Continue
+                    to Destination <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg></button>
+            </div>
+        </div>
+
+        <!-- STEP 3 DESTINATION -->
+        <div id="step3" class="step-panel">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-11 h-11 bg-brand rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="font-serif text-2xl font-semibold text-navy">Study Destination &amp; Course</h2>
+                    <p class="text-slate-500 text-sm">Where and what would you like to study?</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                <p
+                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5 pb-3 border-b border-cream-mid">
+                    Preferred Country (select all that apply)</p>
+                <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 mt-2">
+                    <label
+                        class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
+                            type="checkbox" name="country" value="USA" /><img src="https://flagcdn.com/w80/us.png"
+                            class="flag-img" alt="USA" /><span
+                            class="dest-label text-xs font-semibold text-navy">USA</span></label>
+                    <label
+                        class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
+                            type="checkbox" name="country" value="UK" /><img src="https://flagcdn.com/w80/gb.png"
+                            class="flag-img" alt="UK" /><span class="dest-label text-xs font-semibold text-navy">United
+                            Kingdom</span></label>
+                    <label
+                        class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
+                            type="checkbox" name="country" value="Canada" /><img src="https://flagcdn.com/w80/ca.png"
+                            class="flag-img" alt="Canada" /><span
+                            class="dest-label text-xs font-semibold text-navy">Canada</span></label>
+                    <label
+                        class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
+                            type="checkbox" name="country" value="Australia" /><img src="https://flagcdn.com/w80/au.png"
+                            class="flag-img" alt="Australia" /><span
+                            class="dest-label text-xs font-semibold text-navy">Australia</span></label>
+                    <label
+                        class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
+                            type="checkbox" name="country" value="Germany" /><img src="https://flagcdn.com/w80/de.png"
+                            class="flag-img" alt="Germany" /><span
+                            class="dest-label text-xs font-semibold text-navy">Germany</span></label>
+                    <label
+                        class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
+                            type="checkbox" name="country" value="Japan" /><img src="https://flagcdn.com/w80/jp.png"
+                            class="flag-img" alt="Japan" /><span
+                            class="dest-label text-xs font-semibold text-navy">Japan</span></label>
+                    <label
+                        class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
+                            type="checkbox" name="country" value="South Korea" /><img
+                            src="https://flagcdn.com/w80/kr.png" class="flag-img" alt="South Korea" /><span
+                            class="dest-label text-xs font-semibold text-navy">South Korea</span></label>
+                    <label
+                        class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
+                            type="checkbox" name="country" value="New Zealand" /><img
+                            src="https://flagcdn.com/w80/nz.png" class="flag-img" alt="New Zealand" /><span
+                            class="dest-label text-xs font-semibold text-navy">New Zealand</span></label>
+                    <label
+                        class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
+                            type="checkbox" name="country" value="Ireland" /><img src="https://flagcdn.com/w80/ie.png"
+                            class="flag-img" alt="Ireland" /><span
+                            class="dest-label text-xs font-semibold text-navy">Ireland</span></label>
+                    <label
+                        class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
+                            type="checkbox" name="country" value="France" /><img src="https://flagcdn.com/w80/fr.png"
+                            class="flag-img" alt="France" /><span
+                            class="dest-label text-xs font-semibold text-navy">France</span></label>
+                    <label
+                        class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
+                            type="checkbox" name="country" value="Singapore" /><img src="https://flagcdn.com/w80/sg.png"
+                            class="flag-img" alt="Singapore" /><span
+                            class="dest-label text-xs font-semibold text-navy">Singapore</span></label>
+                    <label
+                        class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
+                            type="checkbox" name="country" value="Other" />
+                        <div
+                            class="w-9 h-6 rounded bg-gradient-to-r from-brand to-brand-cyan mx-auto mb-2 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" />
+                            </svg>
+                        </div><span class="dest-label text-xs font-semibold text-navy">Other</span>
+                    </label>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                <p
+                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5 pb-3 border-b border-cream-mid">
+                    Course &amp; Program</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Study
+                            Level <span class="text-red-500">*</span></label><select id="studyLevel"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                            <option value="">Select level</option>
+                            <option>Foundation / Pre-University</option>
+                            <option>Diploma</option>
+                            <option>Bachelor's Degree (UG)</option>
+                            <option>Master's Degree (PG)</option>
+                            <option>PhD / Research</option>
+                            <option>Short Course / Certificate</option>
+                            <option>Language Course</option>
+                        </select><span class="field-error text-xs text-red-600 mt-1">Required</span></div>
+                    <div class="field"><label
+                            class="text-sm font-medium text-navy mb-1.5 flex gap-1 items-center">Preferred Subject /
+                            Major <span class="text-red-500">*</span></label><select id="subject"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                            <option value="">Select subject</option>
+                            <option>Computer Science / IT</option>
+                            <option>Engineering</option>
+                            <option>Business / MBA</option>
+                            <option>Nursing / Health Sciences</option>
+                            <option>Medicine / MBBS</option>
+                            <option>Pharmacy</option>
+                            <option>Hospitality &amp; Tourism</option>
+                            <option>Architecture &amp; Design</option>
+                            <option>Arts &amp; Humanities</option>
+                            <option>Social Sciences</option>
+                            <option>Law</option>
+                            <option>Accounting &amp; Finance</option>
+                            <option>Education</option>
+                            <option>Agriculture</option>
+                            <option>Other</option>
+                        </select><span class="field-error text-xs text-red-600 mt-1">Required</span></div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Preferred
+                            Intake</label><select id="intake"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                            <option value="">Select intake</option>
+                            <option>January / Spring 2026</option>
+                            <option>May / Summer 2026</option>
+                            <option>September / Fall 2026</option>
+                            <option>January / Spring 2027</option>
+                            <option>September / Fall 2027</option>
+                            <option>Flexible / Not sure</option>
+                        </select></div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Estimated Annual
+                            Budget</label><select id="budget"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                            <option value="">Select range</option>
+                            <option>Below Rs. 10 Lakh</option>
+                            <option>Rs. 10-20 Lakh</option>
+                            <option>Rs. 20-35 Lakh</option>
+                            <option>Rs. 35-50 Lakh</option>
+                            <option>Rs. 50 Lakh+</option>
+                            <option>Looking for Scholarship</option>
+                        </select></div>
+                    <div class="field sm:col-span-2"><label class="text-sm font-medium text-navy mb-1.5">Any specific
+                            university preference?</label><input type="text" id="uniPreference"
+                            placeholder="e.g. University of Toronto, or any top-ranked university"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between mt-8">
+                <button onclick="prevStep(3)"
+                    class="flex items-center gap-2 border border-cream-dark text-navy px-6 py-3 rounded-xl text-sm font-semibold hover:bg-cream-mid transition-colors"><svg
+                        class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>Back</button>
+                <button onclick="nextStep(3)"
+                    class="flex items-center gap-3 bg-brand hover:bg-brand-dark text-white px-8 py-3.5 rounded-xl text-sm font-semibold transition-colors shadow-sm">Continue
+                    to Language Tests <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg></button>
+            </div>
+        </div>
+
+        <!-- STEP 4 LANGUAGE TESTS -->
+        <div id="step4" class="step-panel">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-11 h-11 bg-brand rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="font-serif text-2xl font-semibold text-navy">Language Tests &amp; Scores</h2>
+                    <p class="text-slate-500 text-sm">Select one test — choosing another will automatically deselect the
+                        previous</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                <p
+                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3 pb-3 border-b border-cream-mid">
+                    Which language test have you taken or are planning to take?</p>
+                <div
+                    class="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 mb-4 text-xs text-amber-700">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Only one test can be selected at a time. Selecting a new test will auto-deselect the previous
+                        one.</span>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <button type="button" id="pill-ielts"
+                        class="lang-pill flex items-center gap-2 px-5 py-2.5 border-2 border-cream-dark rounded-full text-sm font-medium hover:border-brand"
+                        onclick="selectTest('ielts')">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        IELTS
+                    </button>
+                    <button type="button" id="pill-pte"
+                        class="lang-pill flex items-center gap-2 px-5 py-2.5 border-2 border-cream-dark rounded-full text-sm font-medium hover:border-brand"
+                        onclick="selectTest('pte')">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        PTE Academic
+                    </button>
+                    <button type="button" id="pill-japanese"
+                        class="lang-pill flex items-center gap-2 px-5 py-2.5 border-2 border-cream-dark rounded-full text-sm font-medium hover:border-brand"
+                        onclick="selectTest('japanese')">
+                        <img src="https://flagcdn.com/w20/jp.png" class="h-4 rounded-sm" alt="JP" /> Japanese Language
+                    </button>
+                    <button type="button" id="pill-none"
+                        class="lang-pill flex items-center gap-2 px-5 py-2.5 border-2 border-cream-dark rounded-full text-sm font-medium hover:border-brand"
+                        onclick="selectTest('none')">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                        </svg>
+                        None / Not yet taken
+                    </button>
+                </div>
+                <input type="hidden" id="selectedTest" value="" />
+            </div>
+
+            <!-- IELTS block -->
+            <div id="block-ielts" class="hidden">
+                <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-cream-mid">
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">IELTS</p>
+                        <span class="bg-amber-100 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full">Widely
+                            Required</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Overall Band
+                                Score</label><input type="text" id="ieltsScore" placeholder="e.g. 6.5"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                        </div>
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Test Date</label><input
+                                type="date" id="ieltsDate"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy" />
+                        </div>
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Listening</label><input
+                                type="text" id="ieltsL" placeholder="e.g. 7.0"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                        </div>
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Reading</label><input
+                                type="text" id="ieltsR" placeholder="e.g. 6.5"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                        </div>
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Writing</label><input
+                                type="text" id="ieltsW" placeholder="e.g. 6.0"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                        </div>
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Speaking</label><input
+                                type="text" id="ieltsS" placeholder="e.g. 6.5"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PTE block -->
+            <div id="block-pte" class="hidden">
+                <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-cream-mid">
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">PTE Academic</p>
+                        <span class="bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Accepted
+                            Widely</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Overall
+                                Score</label><input type="text" id="pteScore" placeholder="e.g. 65"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                        </div>
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Test Date</label><input
+                                type="date" id="pteDate"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Japanese Language block -->
+            <div id="block-japanese" class="hidden">
+                <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-cream-mid">
+                        <div class="flex items-center gap-3">
+                            <img src="https://flagcdn.com/w40/jp.png" class="h-5 rounded shadow-sm" alt="Japan" />
+                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Japanese Language
+                                Test</p>
+                        </div>
+                        <span class="bg-red-50 text-red-700 text-xs font-semibold px-3 py-1 rounded-full">For
+                            Japan</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="field">
+                            <label class="text-sm font-medium text-navy mb-1.5">Test Type</label>
+                            <select id="jlptType"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                                <option value="">Select test</option>
+                                <option>JLPT (Japanese Language Proficiency Test)</option>
+                                <option>NAT-TEST</option>
+                                <option>J-TEST</option>
+                                <option>BJT Business Japanese</option>
+                                <option>JLCT (Japanese Language Competency Test)</option>
+                                <option>J-Cert (Japanese Certification)</option>
+                                <option>JPT (Japanese Proficiency Test)</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label class="text-sm font-medium text-navy mb-1.5">Level</label>
+                            <select id="jlptLevel"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                                <option value="">Select level</option>
+                                <option>N1 (Advanced)</option>
+                                <option>N2 (Upper Intermediate)</option>
+                                <option>N3 (Intermediate)</option>
+                                <option>N4 (Elementary)</option>
+                                <option value="N5 (Beginner)">N5 (Beginner)</option>
+                                <option>Not yet appeared</option>
+                            </select>
+                        </div>
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Test Date</label><input
+                                type="date" id="jlptDate"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy" />
+                        </div>
+                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Score (if
+                                available)</label><input type="text" id="jlptScore" placeholder="e.g. 120/180"
+                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                <p
+                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5 pb-3 border-b border-cream-mid">
+                    Additional Information</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div class="field"><label class="text-sm font-medium text-navy mb-2 block">Previous visa
+                            refusal?</label>
+                        <div class="flex gap-3"><label
+                                class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"><input
+                                    type="radio" name="visaRefusal" value="Yes" /> Yes</label><label
+                                class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"><input
+                                    type="radio" name="visaRefusal" value="No" checked /> No</label></div>
+                    </div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5">How did you hear about
+                            us?</label><select id="referral"
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                            <option value="">Select source</option>
+                            <option>Facebook</option>
+                            <option>Instagram</option>
+                            <option>TikTok</option>
+                            <option>YouTube</option>
+                            <option>Friend / Family Referral</option>
+                            <option>Google Search</option>
+                            <option>Education Fair</option>
+                            <option>Walk-in</option>
+                            <option>Other</option>
+                        </select></div>
+                    <div class="field sm:col-span-2"><label class="text-sm font-medium text-navy mb-1.5">Any additional
+                            message or special requirements?</label><textarea id="message" rows="3"
+                            placeholder="Tell us anything else — scholarship needs, health conditions, specific requirements..."
+                            class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400 resize-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between mt-8">
+                <button onclick="prevStep(4)"
+                    class="flex items-center gap-2 border border-cream-dark text-navy px-6 py-3 rounded-xl text-sm font-semibold hover:bg-cream-mid transition-colors"><svg
+                        class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>Back</button>
+                <button onclick="nextStep(4)"
+                    class="flex items-center gap-3 bg-brand hover:bg-brand-dark text-white px-8 py-3.5 rounded-xl text-sm font-semibold transition-colors shadow-sm">Continue
+                    to Payment <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg></button>
+            </div>
+        </div>
+
+        <!-- STEP 5 PAYMENT -->
+        <div id="step5" class="step-panel">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-11 h-11 bg-brand rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="font-serif text-2xl font-semibold text-navy">Payment &amp; Fees</h2>
+                    <p class="text-slate-500 text-sm">Registration fees for Language Programs</p>
+                </div>
+            </div>
+
+            <!-- Fee breakdown -->
+            <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                <p
+                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5 pb-3 border-b border-cream-mid">
+                    Fee Structure</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <div class="border-2 border-brand/30 bg-brand/5 rounded-2xl p-5">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div
+                                class="w-10 h-10 bg-brand/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-navy">Book Fee</p>
+                                <p class="text-xs text-slate-500">Study materials &amp; textbooks</p>
+                            </div>
+                        </div>
+                        <div class="fee-badge">Rs. 500</div>
+                        <p class="text-xs text-slate-500 mt-2">Includes all course textbooks and reference materials</p>
+                    </div>
+                    <div class="border-2 border-brand/30 bg-brand/5 rounded-2xl p-5">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div
+                                class="w-10 h-10 bg-brand/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-navy">Admission Fee</p>
+                                <p class="text-xs text-slate-500">Program registration</p>
+                            </div>
+                        </div>
+                        <div class="fee-badge">Rs. 500</div>
+                        <p class="text-xs text-slate-500 mt-2">One-time admission &amp; program enrollment fee</p>
+                    </div>
+                </div>
+                <!-- Total bar -->
+                <div class="rounded-2xl p-6 flex items-center justify-between"
+                    style="background:linear-gradient(135deg,#0d1b3e,#243e7a)">
+                    <div>
+                        <p class="text-white/60 text-xs uppercase tracking-wider mb-1">Total Amount Due</p>
+                        <p class="text-white text-2xl font-bold font-serif">Rs. 1,000</p>
+                        <p class="text-white/40 text-xs mt-0.5">Book Fee (500) + Admission Fee (500)</p>
+                    </div>
+                    <div class="bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-right">
+                        <p class="text-white/50 text-xs">Program</p>
+                        <p class="text-white font-semibold text-sm">Language Program</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment method -->
+            <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
+                <p
+                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5 pb-3 border-b border-cream-mid">
+                    Payment Method</p>
+                <div class="grid grid-cols-3 gap-3 mb-5">
+                    <div class="pay-method-card" id="pmCard-cash" onclick="selectPayMethod('cash')">
+                        <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <p class="text-sm font-semibold text-navy">Cash</p>
+                        <p class="text-xs text-slate-400">Pay at office</p>
+                    </div>
+                    <div class="pay-method-card" id="pmCard-esewa" onclick="selectPayMethod('esewa')">
+                        <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                            <span class="text-green-700 font-black text-xs leading-none text-center">eSewa</span>
+                        </div>
+                        <p class="text-sm font-semibold text-navy">eSewa</p>
+                        <p class="text-xs text-slate-400">Digital wallet</p>
+                    </div>
+                    <div class="pay-method-card" id="pmCard-bank" onclick="selectPayMethod('bank')">
+                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                            </svg>
+                        </div>
+                        <p class="text-sm font-semibold text-navy">Bank Transfer</p>
+                        <p class="text-xs text-slate-400">Direct deposit</p>
+                    </div>
+                </div>
+
+                <div id="pay-prompt" class="bg-cream-mid rounded-xl p-4 text-center text-sm text-slate-400 mb-4">Select
+                    a payment method above to see details</div>
+
+                <div id="pay-cash" class="hidden bg-green-50 border border-green-200 rounded-xl p-5 mb-4">
+                    <p class="text-sm font-semibold text-green-800 mb-1">Pay at Our Office</p>
+                    <p class="text-xs text-green-700">Please bring <strong>Rs. 1,000 cash</strong> to our office. You
+                        will receive an official receipt upon payment.</p>
+                    <p class="text-xs text-green-600 mt-2">Discovery Pathway Consultancy, Kathmandu, Nepal</p>
+                </div>
+
+                <div id="pay-esewa" class="hidden bg-green-50 border border-green-200 rounded-xl p-5 mb-4">
+                    <p class="text-sm font-semibold text-green-800 mb-3">eSewa Payment Details</p>
+                    <div class="grid grid-cols-2 gap-3 text-sm mb-3">
+                        <div>
+                            <p class="text-xs text-slate-400">eSewa ID</p>
+                            <p class="font-bold text-navy">9800000000</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Account Name</p>
+                            <p class="font-bold text-navy">Discovery Pathway</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Amount</p>
+                            <p class="font-bold text-green-700">Rs. 1,000</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Reference</p>
+                            <p class="font-bold text-navy">Your Full Name</p>
+                        </div>
+                    </div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5">eSewa Transaction
+                            ID</label><input type="text" id="txnId" placeholder="e.g. TXN123456789"
+                            class="w-full px-4 py-2.5 bg-white border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                    </div>
+                </div>
+
+                <div id="pay-bank" class="hidden bg-blue-50 border border-blue-200 rounded-xl p-5 mb-4">
+                    <p class="text-sm font-semibold text-blue-800 mb-3">Bank Transfer Details</p>
+                    <div class="grid grid-cols-2 gap-3 text-sm mb-3">
+                        <div>
+                            <p class="text-xs text-slate-400">Bank Name</p>
+                            <p class="font-bold text-navy">Nabil Bank Ltd.</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Account Name</p>
+                            <p class="font-bold text-navy">Discovery Pathway Pvt. Ltd.</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Account Number</p>
+                            <p class="font-bold text-navy">0011234567890</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Amount</p>
+                            <p class="font-bold text-blue-700">Rs. 1,000</p>
+                        </div>
+                    </div>
+                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Bank Transaction / Voucher
+                            No.</label><input type="text" id="bankTxnId" placeholder="e.g. 2024XXXXXX"
+                            class="w-full px-4 py-2.5 bg-white border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                    </div>
+                </div>
+
+                <!-- Payment status -->
+                <div class="mt-4">
+                    <label class="text-sm font-medium text-navy mb-2 block">Payment Status</label>
+                    <div class="flex gap-3 flex-wrap">
+                        <label
+                            class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"><input
+                                type="radio" name="payStatus" value="Paid" /> Already Paid</label>
+                        <label
+                            class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"><input
+                                type="radio" name="payStatus" value="Will Pay at Office" /> Will Pay at Office</label>
+                        <label
+                            class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"><input
+                                type="radio" name="payStatus" value="Pending" /> Pending</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between mt-8">
+                <button onclick="prevStep(5)"
+                    class="flex items-center gap-2 border border-cream-dark text-navy px-6 py-3 rounded-xl text-sm font-semibold hover:bg-cream-mid transition-colors"><svg
+                        class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>Back</button>
+                <button onclick="nextStep(5)"
+                    class="flex items-center gap-3 bg-brand hover:bg-brand-dark text-white px-8 py-3.5 rounded-xl text-sm font-semibold transition-colors shadow-sm">Review
+                    Application <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg></button>
+            </div>
+        </div>
+
+        <!-- STEP 6 REVIEW -->
+        <div id="step6" class="step-panel">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-11 h-11 bg-brand rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="font-serif text-2xl font-semibold text-navy">Review &amp; Submit</h2>
+                    <p class="text-slate-500 text-sm">Please confirm your details before submitting</p>
+                </div>
+            </div>
+            <div id="reviewSummary" class="space-y-4 mb-6"></div>
+            <div class="bg-blue-50 border border-brand/20 rounded-2xl p-6 mb-6">
+                <label class="custom-check">
+                    <input type="checkbox" id="termsCheck" />
+                    <div class="check-box"><svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="3.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg></div>
+                    <span class="text-sm text-navy leading-relaxed">I confirm that all information provided is
+                        <strong>accurate and truthful</strong>. I consent to <strong>Discovery Pathway
+                            Consultancy</strong> contacting me via phone, email, or WhatsApp regarding my study abroad
+                        application. I understand my data will be stored securely as per the Privacy Policy of <a
+                            href="http://discoverypathway.edu.np"
+                            class="text-brand underline">discoverypathway.edu.np</a>.</span>
+                </label>
+            </div>
+            <div id="submitError"
+                class="hidden bg-red-50 border border-red-200 text-red-700 rounded-xl px-5 py-4 text-sm flex items-center gap-3 mb-4">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span id="submitErrorMsg"></span>
+            </div>
+            <div class="flex justify-between mt-8">
+                <button onclick="prevStep(6)"
+                    class="flex items-center gap-2 border border-cream-dark text-navy px-6 py-3 rounded-xl text-sm font-semibold hover:bg-cream-mid transition-colors"><svg
+                        class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>Back</button>
+                <button id="submitBtn" onclick="submitForm()"
+                    class="flex items-center gap-3 bg-brand hover:bg-brand-dark text-white font-bold px-10 py-3.5 rounded-xl text-sm transition-colors shadow-md">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                    Submit Application
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-navy text-white/40 text-xs text-center py-5">
+        &copy; 2026 Discovery Pathway Consultancy &middot;
+        <a href="http://discoverypathway.edu.np"
+            class="text-brand-cyan/60 hover:text-brand-cyan transition-colors">discoverypathway.edu.np</a>
+    </footer>
+
+    <script>
+        /* === CONFIG === */
+        const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+        const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_PUBLIC_KEY';
+        const TABLE_NAME = 'student_registrations';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'; // ← paste after deploying
+
+        const LOGO_B64 = 'LOGO_PLACEHOLDER';
+        document.getElementById('headerLogo').src = 'data:image/png;base64,' + LOGO_B64;
+        document.getElementById('successLogo').src = 'data:image/png;base64,' + LOGO_B64;
+
+        /* === EXCLUSIVE LANGUAGE TEST SELECTION === */
+        let activeTest = '';
+        function selectTest(test) {
+            // Deselect all pills
+            document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('selected'));
+            // Hide all test blocks
+            ['ielts', 'pte', 'japanese'].forEach(t => {
+                const b = document.getElementById('block-' + t);
+                if (b) b.classList.add('hidden');
+            });
+            // Toggle off if same clicked
+            if (activeTest === test) { activeTest = ''; document.getElementById('selectedTest').value = ''; return; }
+            // Activate new selection
+            activeTest = test;
+            document.getElementById('selectedTest').value = test;
+            const pill = document.getElementById('pill-' + test);
+            if (pill) pill.classList.add('selected');
+            if (test !== 'none') {
+                const block = document.getElementById('block-' + test);
+                if (block) block.classList.remove('hidden');
+                // Auto-select N5 when Japanese is opened
+                if (test === 'japanese') {
+                    const lvl = document.getElementById('jlptLevel');
+                    if (lvl && lvl.value === '') lvl.value = 'N5 (Beginner)';
+                }
+            }
+        }
+
+        /* === PAYMENT METHOD === */
+        function selectPayMethod(method) {
+            ['cash', 'esewa', 'bank'].forEach(m => {
+                document.getElementById('pmCard-' + m).classList.remove('active');
+                document.getElementById('pay-' + m).classList.add('hidden');
+            });
+            document.getElementById('pay-prompt').classList.add('hidden');
+            document.getElementById('pmCard-' + method).classList.add('active');
+            document.getElementById('pay-' + method).classList.remove('hidden');
+        }
+
+        /* === TOGGLES === */
+        function toggleWork(val) { document.getElementById('workDetails').classList.toggle('open', val === 'Yes'); }
+        function togglePassport(val) { document.getElementById('passportDetails').classList.toggle('open', val === 'Yes' || val === 'Applied'); }
+
+        /* === STEP NAVIGATION === */
+        let currentStep = 1;
+        const TOTAL = 6;
+        function goToStep(n) { if (n < currentStep) switchStep(n); }
+        function nextStep(from) { if (!validateStep(from)) return; if (from === 5) buildReview(); switchStep(from + 1); }
+        function prevStep(from) { switchStep(from - 1); }
+        function switchStep(n) {
+            document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('step' + n).classList.add('active');
+            currentStep = n;
+            updateTabs(); updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function updateTabs() {
+            document.querySelectorAll('.step-tab').forEach(tab => {
+                const s = parseInt(tab.dataset.step);
+                const num = tab.querySelector('.step-num');
+                const lbl = tab.querySelector('.step-lbl');
+                num.className = 'step-num w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center transition-all';
+                tab.classList.remove('border-brand', 'border-green-500', 'border-transparent');
+                if (s === currentStep) {
+                    tab.classList.add('border-brand'); num.classList.add('bg-brand', 'text-white'); num.textContent = s;
+                    if (lbl) lbl.className = 'step-lbl text-xs font-medium text-brand uppercase tracking-wider hidden sm:block';
+                } else if (s < currentStep) {
+                    tab.classList.add('border-green-500'); num.classList.add('bg-green-500', 'text-white'); num.innerHTML = '&#10003;';
+                    if (lbl) lbl.className = 'step-lbl text-xs font-medium text-green-600 uppercase tracking-wider hidden sm:block';
+                } else {
+                    tab.classList.add('border-transparent'); num.classList.add('bg-cream-mid', 'text-slate-400'); num.textContent = s;
+                    if (lbl) lbl.className = 'step-lbl text-xs font-medium text-slate-400 uppercase tracking-wider hidden sm:block';
+                }
+            });
+        }
+        function updateProgress() {
+            document.getElementById('progressBar').style.width = (currentStep / TOTAL * 100) + '%';
+            document.getElementById('progressText').textContent = 'Step ' + currentStep + ' of ' + TOTAL;
+        }
+
+        /* === VALIDATION === */
+        function validateStep(step) {
+            let ok = true;
+            const rules = {
+                1: [{ id: 'firstName' }, { id: 'lastName' }, { id: 'dob' }, { id: 'nationality' }, { id: 'gender' }, { id: 'phone' }, { id: 'address' }, { id: 'email', validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) }, { id: 'guardianName' }, { id: 'guardianPhone' }],
+                2: [{ id: 'eduLevel' }, { id: 'institution' }, { id: 'passingYear' }, { id: 'gpa' }],
+                3: [{ id: 'studyLevel' }, { id: 'subject' }],
+            };
+            (rules[step] || []).forEach(rule => {
+                const el = document.getElementById(rule.id);
+                if (!el) return;
+                const val = el.value.trim();
+                const valid = val && (!rule.validate || rule.validate(val));
+                const wrap = el.closest('.field');
+                if (wrap) wrap.classList.toggle('has-error', !valid);
+                if (!valid) ok = false;
+            });
+            return ok;
+        }
+
+        /* === REVIEW BUILD === */
+        function buildReview() {
+            const countries = [...document.querySelectorAll('input[name="country"]:checked')].map(c => c.value).join(', ') || 'None selected';
+            const testLabel = activeTest ? ({ ielts: 'IELTS', pte: 'PTE Academic', japanese: 'Japanese Language', none: 'None / Not yet taken' }[activeTest] || activeTest) : 'None';
+            const payMethod = document.querySelector('.pay-method-card.active')?.querySelector('p.font-semibold')?.textContent || 'Not selected';
+            const payStatus = document.querySelector('input[name="payStatus"]:checked')?.value || 'Not specified';
+            const sections = [
+                { title: 'Personal Information', rows: [['Full Name', `${v('firstName')} ${v('middleName')} ${v('lastName')}`.replace(/\s+/g, ' ').trim()], ['Date of Birth', v('dob')], ['Gender', v('gender')], ['Nationality', v('nationality')], ['Phone', '+977 ' + v('phone')], ['Email', v('email')], ['Address', v('address')], ['Guardian', `${v('guardianName')} (${v('guardianRelation') || 'Guardian'})`], ['Guardian Phone', v('guardianPhone')]] },
+                { title: 'Academic Background', rows: [['Education Level', v('eduLevel')], ['Stream', v('stream') || '—'], ['Institution', v('institution')], ['Board', v('board') || '—'], ['Passing Year', v('passingYear')], ['GPA / Marks', v('gpa')], ['Work Experience', rv('workExp') || 'No'], ['Passport', rv('passport') || 'No']] },
+                { title: 'Destination &amp; Course', rows: [['Countries', countries], ['Study Level', v('studyLevel')], ['Subject', v('subject')], ['Intake', v('intake') || '—'], ['Budget', v('budget') || '—'], ['Uni Preference', v('uniPreference') || '—']] },
+                { title: 'Language Test', rows: [['Test Selected', testLabel], ['IELTS Score', v('ieltsScore') || '—'], ['PTE Score', v('pteScore') || '—'], ['Japanese Test Type', v('jlptType') || '—'], ['Japanese Level', v('jlptLevel') || '—'], ['Visa Refusal', rv('visaRefusal') || 'No'], ['Referral', v('referral') || '—']] },
+                { title: 'Payment', rows: [['Book Fee', 'Rs. 500'], ['Admission Fee', 'Rs. 500'], ['Total', 'Rs. 1,000'], ['Payment Method', payMethod], ['Payment Status', payStatus]] }
+            ];
+            document.getElementById('reviewSummary').innerHTML = sections.map(sec => `
+    <div class="bg-white rounded-2xl border border-cream-dark shadow-sm overflow-hidden">
+      <div class="bg-brand/5 border-b border-cream-dark px-6 py-3"><p class="text-sm font-semibold text-navy">${sec.title}</p></div>
+      <div class="px-6 py-4"><table class="w-full text-sm">${sec.rows.map(([k, val]) => `<tr class="border-b border-cream-mid last:border-0"><td class="py-2 pr-4 text-slate-400 font-medium w-44 text-xs">${k}</td><td class="py-2 text-navy font-medium text-sm">${val || '—'}</td></tr>`).join('')}</table></div>
+    </div>`).join('');
+        }
+
+        const v = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+        const rv = n => { const el = document.querySelector(`input[name="${n}"]:checked`); return el ? el.value : ''; };
+
+        /* === SUBMIT === */
+        async function submitForm() {
+            if (!document.getElementById('termsCheck').checked) { showError('Please accept the terms and conditions.'); return; }
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="spinner"></div><span>Submitting...</span>';
+            hideError();
+
+            const countries = [...document.querySelectorAll('input[name="country"]:checked')].map(c => c.value);
+
+            const payload = {
+                first_name: v('firstName'), middle_name: v('middleName'), last_name: v('lastName'),
+                date_of_birth: v('dob') || null, gender: v('gender'), nationality: v('nationality'),
+                phone: v('phone'), email: v('email'), address: v('address'),
+                guardian_name: v('guardianName'), guardian_relation: v('guardianRelation'),
+                guardian_phone: v('guardianPhone'), guardian_occupation: v('guardianOccupation'),
+                education_level: v('eduLevel'), field_of_study: v('stream'), institution: v('institution'),
+                board_university: v('board'), passing_year: v('passingYear'), gpa_marks: v('gpa'),
+                work_experience: rv('workExp'), work_years: v('workYears'), employer: v('employer'),
+                passport_status: rv('passport'), passport_number: v('passportNumber'), passport_expiry: v('passportExpiry') || null,
+                preferred_countries: countries, study_level: v('studyLevel'), preferred_subject: v('subject'),
+                preferred_intake: v('intake'), budget_npr: v('budget'), university_preference: v('uniPreference'),
+                test_selected: activeTest,
+                ielts_score: v('ieltsScore'), ielts_date: v('ieltsDate') || null,
+                ielts_listening: v('ieltsL'), ielts_reading: v('ieltsR'), ielts_writing: v('ieltsW'), ielts_speaking: v('ieltsS'),
+                pte_score: v('pteScore'), pte_date: v('pteDate') || null,
+                jlpt_type: v('jlptType'), jlpt_level: v('jlptLevel'), jlpt_score: v('jlptScore'), jlpt_date: v('jlptDate') || null,
+                visa_refusal: rv('visaRefusal'), referral_source: v('referral'), message: v('message'),
+                payment_method: selectedPayMethod,
+                payment_status: rv('payStatus'),
+                txn_id: v('txnId') || v('bankTxnId'),
+                book_fee: 500, admission_fee: 500, total_fee: 1000,
+                status: 'New', registered_at: new Date().toISOString()
+            };
+
+            try {
+                // ── Run BOTH in parallel ──────────────────────────────
+                const [supabaseResult, scriptResult] = await Promise.allSettled([
+                    saveToSupabase(payload),
+                    saveToAppsScript(payload)
+                ]);
+
+                // ── Get Ref ID (prefer Supabase ID, fallback to Sheet ID) ──
+                let refId = '';
+                if (supabaseResult.status === 'fulfilled') {
+                    refId = supabaseResult.value; // e.g. DP-00001
+                } else if (scriptResult.status === 'fulfilled') {
+                    refId = scriptResult.value;   // fallback from Apps Script
+                    console.warn('Supabase failed:', supabaseResult.reason);
+                } else {
+                    // Both failed — rare but handle it
+                    throw new Error('Both storage systems failed. Please try again.');
+                }
+
+                // Log partial failures (non-blocking)
+                if (scriptResult.status === 'rejected') console.warn('Apps Script failed:', scriptResult.reason);
+                if (supabaseResult.status === 'rejected') console.warn('Supabase failed:', supabaseResult.reason);
+
+                showSuccess(refId);
+
+            } catch (err) {
+                btn.disabled = false;
+                btn.innerHTML = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+        </svg> Submit Application`;
+                showError('Submission failed: ' + err.message);
+            }
+        }
+
+        function showSuccess(refId) {
+            document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('successScreen').classList.remove('hidden');
+            document.getElementById('refNumber').textContent = refId;
+        }
+        function showError(msg) { document.getElementById('submitError').classList.remove('hidden'); document.getElementById('submitErrorMsg').textContent = msg; }
+        function hideError() { document.getElementById('submitError').classList.add('hidden'); }
+        function resetForm() {
+            document.getElementById('successScreen').classList.add('hidden');
+            document.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]),select,textarea').forEach(el => el.value = '');
+            activeTest = '';
+            document.getElementById('selectedTest').value = '';
+            document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('selected'));
+            ['ielts', 'pte', 'japanese'].forEach(t => { const b = document.getElementById('block-' + t); if (b) b.classList.add('hidden'); });
+            switchStep(1);
+        }
+
+        /* === Year dropdown === */
+        (function () {
+            const sel = document.getElementById('passingYear');
+            for (let y = new Date().getFullYear() + 1; y >= 2000; y--) {
+                const o = document.createElement('option');
+                o.value = o.textContent = y;
+                sel.appendChild(o);
+            }
+        })();
+
+        updateTabs(); updateProgress();
+    </script>
+</body>
+
+</html>
