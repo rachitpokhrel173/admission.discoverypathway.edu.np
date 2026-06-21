@@ -263,6 +263,40 @@
             letter-spacing: .06em;
             margin-bottom: 16px
         }
+
+        .qr-box {
+            width: 168px;
+            height: 168px;
+            border-radius: 14px;
+            border: 1.5px dashed #c7d4f8;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .qr-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .recipient-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fdf6e8;
+            border: 1.5px solid #c9943a;
+            color: #a07020;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
     </style>
 </head>
 
@@ -741,62 +775,62 @@
                 <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 mt-2">
                     <label
                         class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
-                            type="checkbox" name="country" value="USA" /><img src="https://flagcdn.com/w80/us.png"
+                            type="checkbox" name="country" value="USA" onchange="updateLanguagePillVisibility()" /><img src="https://flagcdn.com/w80/us.png"
                             class="flag-img" alt="USA" /><span
                             class="dest-label text-xs font-semibold text-navy">USA</span></label>
                     <label
                         class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
-                            type="checkbox" name="country" value="UK" /><img src="https://flagcdn.com/w80/gb.png"
+                            type="checkbox" name="country" value="UK" onchange="updateLanguagePillVisibility()" /><img src="https://flagcdn.com/w80/gb.png"
                             class="flag-img" alt="UK" /><span class="dest-label text-xs font-semibold text-navy">United
                             Kingdom</span></label>
                     <label
                         class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
-                            type="checkbox" name="country" value="Canada" /><img src="https://flagcdn.com/w80/ca.png"
+                            type="checkbox" name="country" value="Canada" onchange="updateLanguagePillVisibility()" /><img src="https://flagcdn.com/w80/ca.png"
                             class="flag-img" alt="Canada" /><span
                             class="dest-label text-xs font-semibold text-navy">Canada</span></label>
                     <label
                         class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
-                            type="checkbox" name="country" value="Australia" /><img src="https://flagcdn.com/w80/au.png"
+                            type="checkbox" name="country" value="Australia" onchange="updateLanguagePillVisibility()" /><img src="https://flagcdn.com/w80/au.png"
                             class="flag-img" alt="Australia" /><span
                             class="dest-label text-xs font-semibold text-navy">Australia</span></label>
                     <label
                         class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
-                            type="checkbox" name="country" value="Germany" /><img src="https://flagcdn.com/w80/de.png"
+                            type="checkbox" name="country" value="Germany" onchange="updateLanguagePillVisibility()" /><img src="https://flagcdn.com/w80/de.png"
                             class="flag-img" alt="Germany" /><span
                             class="dest-label text-xs font-semibold text-navy">Germany</span></label>
                     <label
                         class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
-                            type="checkbox" name="country" value="Japan" /><img src="https://flagcdn.com/w80/jp.png"
+                            type="checkbox" name="country" value="Japan" onchange="updateLanguagePillVisibility()" /><img src="https://flagcdn.com/w80/jp.png"
                             class="flag-img" alt="Japan" /><span
                             class="dest-label text-xs font-semibold text-navy">Japan</span></label>
                     <label
                         class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
-                            type="checkbox" name="country" value="South Korea" /><img
+                            type="checkbox" name="country" value="South Korea" onchange="updateLanguagePillVisibility()" /><img
                             src="https://flagcdn.com/w80/kr.png" class="flag-img" alt="South Korea" /><span
                             class="dest-label text-xs font-semibold text-navy">South Korea</span></label>
                     <label
                         class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
-                            type="checkbox" name="country" value="New Zealand" /><img
+                            type="checkbox" name="country" value="New Zealand" onchange="updateLanguagePillVisibility()" /><img
                             src="https://flagcdn.com/w80/nz.png" class="flag-img" alt="New Zealand" /><span
                             class="dest-label text-xs font-semibold text-navy">New Zealand</span></label>
                     <label
                         class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
-                            type="checkbox" name="country" value="Ireland" /><img src="https://flagcdn.com/w80/ie.png"
+                            type="checkbox" name="country" value="Ireland" onchange="updateLanguagePillVisibility()" /><img src="https://flagcdn.com/w80/ie.png"
                             class="flag-img" alt="Ireland" /><span
                             class="dest-label text-xs font-semibold text-navy">Ireland</span></label>
                     <label
                         class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
-                            type="checkbox" name="country" value="France" /><img src="https://flagcdn.com/w80/fr.png"
+                            type="checkbox" name="country" value="France" onchange="updateLanguagePillVisibility()" /><img src="https://flagcdn.com/w80/fr.png"
                             class="flag-img" alt="France" /><span
                             class="dest-label text-xs font-semibold text-navy">France</span></label>
                     <label
                         class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
-                            type="checkbox" name="country" value="Singapore" /><img src="https://flagcdn.com/w80/sg.png"
+                            type="checkbox" name="country" value="Singapore" onchange="updateLanguagePillVisibility()" /><img src="https://flagcdn.com/w80/sg.png"
                             class="flag-img" alt="Singapore" /><span
                             class="dest-label text-xs font-semibold text-navy">Singapore</span></label>
                     <label
                         class="dest-card border-2 border-cream-dark rounded-xl p-3 text-center cursor-pointer transition-all hover:border-brand hover:shadow-sm"><input
-                            type="checkbox" name="country" value="Other" />
+                            type="checkbox" name="country" value="Other" onchange="updateLanguagePillVisibility()" />
                         <div
                             class="w-9 h-6 rounded bg-gradient-to-r from-brand to-brand-cyan mx-auto mb-2 flex items-center justify-center">
                             <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -921,8 +955,9 @@
                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <span>Only one test can be selected at a time. Selecting a new test will auto-deselect the previous
-                        one.</span>
+                        one. This choice also determines which payment account is shown in the next step.</span>
                 </div>
+                <p id="testAvailabilityNote" class="text-xs text-slate-400 mb-4"></p>
                 <div class="flex flex-wrap gap-3">
                     <button type="button" id="pill-ielts"
                         class="lang-pill flex items-center gap-2 px-5 py-2.5 border-2 border-cream-dark rounded-full text-sm font-medium hover:border-brand"
@@ -964,30 +999,45 @@
                             class="bg-amber-100 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full">Widely
                             Required</span>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Overall Band
-                                Score</label><input type="text" id="ieltsScore" placeholder="e.g. 6.5"
-                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                    <div class="field mb-1"><label class="text-sm font-medium text-navy mb-2 block">Have you taken the
+                            IELTS test, or are you planning to take it?</label>
+                        <div class="flex gap-3 flex-wrap">
+                            <label
+                                class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"
+                                onclick="toggleIeltsStatus('Taken')"><input type="radio" name="ieltsStatus"
+                                    value="Taken" /> Already Taken</label>
+                            <label
+                                class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"
+                                onclick="toggleIeltsStatus('Planning')"><input type="radio" name="ieltsStatus"
+                                    value="Planning" checked /> Planning to Take</label>
                         </div>
-                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Test Date</label><input
-                                type="date" id="ieltsDate"
-                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy" />
-                        </div>
-                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Listening</label><input
-                                type="text" id="ieltsL" placeholder="e.g. 7.0"
-                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
-                        </div>
-                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Reading</label><input
-                                type="text" id="ieltsR" placeholder="e.g. 6.5"
-                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
-                        </div>
-                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Writing</label><input
-                                type="text" id="ieltsW" placeholder="e.g. 6.0"
-                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
-                        </div>
-                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Speaking</label><input
-                                type="text" id="ieltsS" placeholder="e.g. 6.5"
-                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                    </div>
+                    <div id="ieltsScoreDetails" class="toggle-section">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-5">
+                            <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Overall Band
+                                    Score</label><input type="text" id="ieltsScore" placeholder="e.g. 6.5"
+                                    class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                            </div>
+                            <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Test
+                                    Date</label><input type="date" id="ieltsDate"
+                                    class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy" />
+                            </div>
+                            <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Listening</label><input
+                                    type="text" id="ieltsL" placeholder="e.g. 7.0"
+                                    class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                            </div>
+                            <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Reading</label><input
+                                    type="text" id="ieltsR" placeholder="e.g. 6.5"
+                                    class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                            </div>
+                            <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Writing</label><input
+                                    type="text" id="ieltsW" placeholder="e.g. 6.0"
+                                    class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                            </div>
+                            <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Speaking</label><input
+                                    type="text" id="ieltsS" placeholder="e.g. 6.5"
+                                    class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1000,14 +1050,29 @@
                             class="bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Accepted
                             Widely</span>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Overall
-                                Score</label><input type="text" id="pteScore" placeholder="e.g. 65"
-                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                    <div class="field mb-1"><label class="text-sm font-medium text-navy mb-2 block">Have you taken the
+                            PTE test, or are you planning to take it?</label>
+                        <div class="flex gap-3 flex-wrap">
+                            <label
+                                class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"
+                                onclick="togglePteStatus('Taken')"><input type="radio" name="pteStatus"
+                                    value="Taken" /> Already Taken</label>
+                            <label
+                                class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"
+                                onclick="togglePteStatus('Planning')"><input type="radio" name="pteStatus"
+                                    value="Planning" checked /> Planning to Take</label>
                         </div>
-                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Test Date</label><input
-                                type="date" id="pteDate"
-                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy" />
+                    </div>
+                    <div id="pteScoreDetails" class="toggle-section">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-5">
+                            <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Overall
+                                    Score</label><input type="text" id="pteScore" placeholder="e.g. 65"
+                                    class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                            </div>
+                            <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Test
+                                    Date</label><input type="date" id="pteDate"
+                                    class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1024,37 +1089,51 @@
                         <span class="bg-red-50 text-red-700 text-xs font-semibold px-3 py-1 rounded-full">For
                             Japan</span>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Test Type</label><select
-                                id="jlptType"
-                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
-                                <option value="">Select test</option>
-                                <option>JLPT (Japanese Language Proficiency Test)</option>
-                                <option>NAT-TEST</option>
-                                <option>J-TEST</option>
-                                <option>BJT Business Japanese</option>
-                                <option>JLCT</option>
-                                <option>J-Cert</option>
-                                <option>JPT</option>
-                            </select></div>
-                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Level</label><select
-                                id="jlptLevel"
-                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
-                                <option value="">Select level</option>
-                                <option>N1 (Advanced)</option>
-                                <option>N2 (Upper Intermediate)</option>
-                                <option>N3 (Intermediate)</option>
-                                <option>N4 (Elementary)</option>
-                                <option value="N5 (Beginner)">N5 (Beginner)</option>
-                                <option>Not yet appeared</option>
-                            </select></div>
-                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Test Date</label><input
-                                type="date" id="jlptDate"
-                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy" />
+                    <div class="field mb-1"><label class="text-sm font-medium text-navy mb-2 block">Have you taken a
+                            Japanese language test, or are you planning to take one?</label>
+                        <div class="flex gap-3 flex-wrap">
+                            <label
+                                class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"
+                                onclick="toggleJlptStatus('Taken')"><input type="radio" name="jlptStatus"
+                                    value="Taken" /> Already Taken</label>
+                            <label
+                                class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"
+                                onclick="toggleJlptStatus('Planning')"><input type="radio" name="jlptStatus"
+                                    value="Planning" checked /> Planning to Take</label>
                         </div>
-                        <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Score (if
-                                available)</label><input type="text" id="jlptScore" placeholder="e.g. 120/180"
-                                class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                    </div>
+                    <div id="jlptScoreDetails" class="toggle-section">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-5">
+                            <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Test Type</label><select
+                                    id="jlptType"
+                                    class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                                    <option value="">Select test</option>
+                                    <option>JLPT (Japanese Language Proficiency Test)</option>
+                                    <option>NAT-TEST</option>
+                                    <option>J-TEST</option>
+                                    <option>BJT Business Japanese</option>
+                                    <option>JLCT</option>
+                                    <option>J-Cert</option>
+                                    <option>JPT</option>
+                                </select></div>
+                            <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Level</label><select
+                                    id="jlptLevel"
+                                    class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy">
+                                    <option value="">Select level</option>
+                                    <option>N1 (Advanced)</option>
+                                    <option>N2 (Upper Intermediate)</option>
+                                    <option>N3 (Intermediate)</option>
+                                    <option>N4 (Elementary)</option>
+                                    <option value="N5 (Beginner)">N5 (Beginner)</option>
+                                </select></div>
+                            <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Test
+                                    Date</label><input type="date" id="jlptDate"
+                                    class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy" />
+                            </div>
+                            <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Score (if
+                                    available)</label><input type="text" id="jlptScore" placeholder="e.g. 120/180"
+                                    class="w-full px-4 py-2.5 bg-cream border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1181,9 +1260,20 @@
             </div>
 
             <div class="bg-white rounded-2xl border border-cream-dark shadow-sm p-7 mb-5">
-                <p
-                    class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5 pb-3 border-b border-cream-mid">
-                    Payment Method</p>
+                <div class="flex items-center justify-between mb-5 pb-3 border-b border-cream-mid">
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Payment Method</p>
+                    <span id="recipientIndicator" class="recipient-badge">&#9656; Account: Amit Nuepane</span>
+                </div>
+                <div id="recipientNote"
+                    class="hidden items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 mb-5 text-xs text-amber-700">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>No language test was selected in Step 4, so the default account (Amit Nuepane) is shown. Go back
+                        to Step 4 if this should be different.</span>
+                </div>
                 <div class="grid grid-cols-3 gap-3 mb-5">
                     <div class="pay-method-card" id="pmCard-cash" onclick="selectPayMethod('cash')">
                         <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center"><svg
@@ -1199,7 +1289,7 @@
                         <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center"><span
                                 class="text-green-700 font-black text-xs leading-none text-center">eSewa</span></div>
                         <p class="text-sm font-semibold text-navy">eSewa</p>
-                        <p class="text-xs text-slate-400">Digital wallet</p>
+                        <p class="text-xs text-slate-400">Scan QR to pay</p>
                     </div>
                     <div class="pay-method-card" id="pmCard-bank" onclick="selectPayMethod('bank')">
                         <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center"><svg
@@ -1209,66 +1299,84 @@
                                     d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
                             </svg></div>
                         <p class="text-sm font-semibold text-navy">Bank Transfer</p>
-                        <p class="text-xs text-slate-400">Direct deposit</p>
+                        <p class="text-xs text-slate-400">Scan QR to pay</p>
                     </div>
                 </div>
                 <div id="pay-prompt" class="bg-cream-mid rounded-xl p-4 text-center text-sm text-slate-400 mb-4">Select
                     a payment method above to see details</div>
+
+                <!-- CASH (no QR — pay at office) -->
                 <div id="pay-cash" class="hidden bg-green-50 border border-green-200 rounded-xl p-5 mb-4">
                     <p class="text-sm font-semibold text-green-800 mb-1">Pay at Our Office</p>
                     <p class="text-xs text-green-700">Please bring <strong>Rs. 1,000 cash</strong> to our office.</p>
                     <p class="text-xs text-green-600 mt-2">Discovery Pathway Consultancy, Kathmandu, Nepal</p>
                 </div>
+
+                <!-- ESEWA — QR swaps based on Person A / Person B -->
                 <div id="pay-esewa" class="hidden bg-green-50 border border-green-200 rounded-xl p-5 mb-4">
-                    <p class="text-sm font-semibold text-green-800 mb-3">eSewa Payment Details</p>
-                    <div class="grid grid-cols-2 gap-3 text-sm mb-3">
-                        <div>
-                            <p class="text-xs text-slate-400">eSewa ID</p>
-                            <p class="font-bold text-navy">9800000000</p>
+                    <p class="text-sm font-semibold text-green-800 mb-3">eSewa Payment — Scan to Pay</p>
+                    <div class="flex flex-col sm:flex-row gap-5 items-start">
+                        <div class="qr-box">
+                            <img id="esewaQrImg" src="" alt="eSewa QR Code" />
                         </div>
-                        <div>
-                            <p class="text-xs text-slate-400">Account Name</p>
-                            <p class="font-bold text-navy">Discovery Pathway</p>
+                        <div class="flex-1 grid grid-cols-2 gap-3 text-sm">
+                            <div>
+                                <p class="text-xs text-slate-400">Account Name</p>
+                                <p id="esewaAccountName" class="font-bold text-navy">—</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">eSewa ID</p>
+                                <p id="esewaAccountId" class="font-bold text-navy">—</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">Amount</p>
+                                <p class="font-bold text-green-700">Rs. 1,000</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">Reference</p>
+                                <p class="font-bold text-navy">Your Full Name</p>
+                            </div>
+                            <div class="col-span-2 field mt-1"><label class="text-sm font-medium text-navy mb-1.5">eSewa
+                                    Transaction ID</label><input type="text" id="txnId" placeholder="e.g. TXN123456789"
+                                    class="w-full px-4 py-2.5 bg-white border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-xs text-slate-400">Amount</p>
-                            <p class="font-bold text-green-700">Rs. 1,000</p>
-                        </div>
-                        <div>
-                            <p class="text-xs text-slate-400">Reference</p>
-                            <p class="font-bold text-navy">Your Full Name</p>
-                        </div>
-                    </div>
-                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5">eSewa Transaction
-                            ID</label><input type="text" id="txnId" placeholder="e.g. TXN123456789"
-                            class="w-full px-4 py-2.5 bg-white border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
                     </div>
                 </div>
+
+                <!-- BANK — QR swaps based on Person A / Person B -->
                 <div id="pay-bank" class="hidden bg-blue-50 border border-blue-200 rounded-xl p-5 mb-4">
-                    <p class="text-sm font-semibold text-blue-800 mb-3">Bank Transfer Details</p>
-                    <div class="grid grid-cols-2 gap-3 text-sm mb-3">
-                        <div>
-                            <p class="text-xs text-slate-400">Bank Name</p>
-                            <p class="font-bold text-navy">Nabil Bank Ltd.</p>
+                    <p class="text-sm font-semibold text-blue-800 mb-3">Bank Transfer — Scan to Pay</p>
+                    <div class="flex flex-col sm:flex-row gap-5 items-start">
+                        <div class="qr-box">
+                            <img id="bankQrImg" src="" alt="Bank QR Code" />
                         </div>
-                        <div>
-                            <p class="text-xs text-slate-400">Account Name</p>
-                            <p class="font-bold text-navy">Discovery Pathway Pvt. Ltd.</p>
+                        <div class="flex-1 grid grid-cols-2 gap-3 text-sm">
+                            <div>
+                                <p class="text-xs text-slate-400">Bank Name</p>
+                                <p id="bankName" class="font-bold text-navy">—</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">Account Name</p>
+                                <p id="bankAccountName" class="font-bold text-navy">—</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">Account Number</p>
+                                <p id="bankAccountNumber" class="font-bold text-navy">—</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">Amount</p>
+                                <p class="font-bold text-blue-700">Rs. 1,000</p>
+                            </div>
+                            <div class="col-span-2 field mt-1"><label class="text-sm font-medium text-navy mb-1.5">Bank
+                                    Transaction / Voucher No.</label><input type="text" id="bankTxnId"
+                                    placeholder="e.g. 2024XXXXXX"
+                                    class="w-full px-4 py-2.5 bg-white border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
+                            </div>
                         </div>
-                        <div>
-                            <p class="text-xs text-slate-400">Account Number</p>
-                            <p class="font-bold text-navy">0011234567890</p>
-                        </div>
-                        <div>
-                            <p class="text-xs text-slate-400">Amount</p>
-                            <p class="font-bold text-blue-700">Rs. 1,000</p>
-                        </div>
-                    </div>
-                    <div class="field"><label class="text-sm font-medium text-navy mb-1.5">Bank Transaction / Voucher
-                            No.</label><input type="text" id="bankTxnId" placeholder="e.g. 2024XXXXXX"
-                            class="w-full px-4 py-2.5 bg-white border border-cream-dark rounded-xl text-sm text-navy placeholder-slate-400" />
                     </div>
                 </div>
+
                 <div class="mt-4"><label class="text-sm font-medium text-navy mb-2 block">Payment Status</label>
                     <div class="flex gap-3 flex-wrap"><label
                             class="radio-pill flex items-center gap-2 px-5 py-2 border-2 border-cream-dark rounded-full cursor-pointer text-sm font-medium transition-all"><input
@@ -1370,21 +1478,173 @@
         document.getElementById('headerLogo').src = LOGO_SRC;
         document.getElementById('successLogo').src = LOGO_SRC;
 
-        /* === LANGUAGE TEST === */
+        /* === PAYMENT RECIPIENTS ===
+           Person A receives payment for IELTS / PTE / None (default).
+           Person B receives payment for Japanese.
+           Replace the qr image paths and account details below with the real ones. */
+        const PAYMENT_RECIPIENTS = {
+            personA: {
+                label: 'Person A',
+                esewa: {
+                    qr: './qr-personA-esewa.png',
+                    accountName: 'Amit Nuepane (Discovery Pathway)',
+                    accountId: '9861281539'
+                },
+                bank: {
+                    qr: './qr-amit-sir-samima-bank.jpeg',
+                    bankName: 'Sanima Bank Ltd.',
+                    accountName: 'Amit Nuepane (Discovery Pathway)',
+                    accountNumber: '039011060003347'
+                }
+            },
+            personB: {
+                label: 'Person B',
+                esewa: {
+                    qr: './qr-personB-esewa.png',
+                    accountName: 'Discovery Pathway (Person B)',
+                    accountId: '98XXXXXXXX'
+                },
+                bank: {
+                    qr: './qr-personB-bank.png',
+                    bankName: 'Nabil Bank Ltd.',
+                    accountName: 'Discovery Pathway Pvt. Ltd. (Japan Desk)',
+                    accountNumber: '0019876543210'
+                }
+            }
+        };
+
+        // Tests that route to Person A: ielts, pte, none (and no selection / default)
+        // Tests that route to Person B: japanese
+        function getRecipientKeyForTest(test) {
+            if (test === 'japanese') return 'personB';
+            return 'personA'; // ielts, pte, none, or unset all default to Person A
+        }
+
+        function applyRecipientToPaymentUI() {
+            const recipientKey = getRecipientKeyForTest(activeTest);
+            const recipient = PAYMENT_RECIPIENTS[recipientKey];
+
+            // Update the small indicator badge
+            const indicator = document.getElementById('recipientIndicator');
+            indicator.textContent = '▶ Account: ' + recipient.label + (activeTest === 'japanese' ? ' (Japanese)' : '');
+
+            // Show a note if no test has been selected yet (defaulted)
+            const note = document.getElementById('recipientNote');
+            if (!activeTest) {
+                note.classList.remove('hidden');
+                note.classList.add('flex');
+            } else {
+                note.classList.add('hidden');
+                note.classList.remove('flex');
+            }
+
+            // eSewa fields
+            document.getElementById('esewaQrImg').src = recipient.esewa.qr;
+            document.getElementById('esewaAccountName').textContent = recipient.esewa.accountName;
+            document.getElementById('esewaAccountId').textContent = recipient.esewa.accountId;
+
+            // Bank fields
+            document.getElementById('bankQrImg').src = recipient.bank.qr;
+            document.getElementById('bankName').textContent = recipient.bank.bankName;
+            document.getElementById('bankAccountName').textContent = recipient.bank.accountName;
+            document.getElementById('bankAccountNumber').textContent = recipient.bank.accountNumber;
+        }
+
+        /* === COUNTRY → ACCEPTED LANGUAGE TESTS ===
+           Determines which language-test pills are shown in Step 4 based on the
+           country/countries picked in Step 3. If multiple countries are selected,
+           the union of their accepted tests is shown. If none are selected yet,
+           all pills are shown so the student isn't blocked. */
+        const COUNTRY_ACCEPTED_TESTS = {
+            'USA': ['ielts', 'pte'],
+            'UK': ['ielts', 'pte'],
+            'Canada': ['ielts', 'pte'],
+            'Australia': ['ielts', 'pte'],
+            'New Zealand': ['ielts', 'pte'],
+            'Ireland': ['ielts', 'pte'],
+            'Japan': ['japanese'],
+            'Germany': ['ielts'],
+            'South Korea': ['ielts'],
+            'France': ['ielts'],
+            'Singapore': ['ielts'],
+            'Other': ['ielts']
+        };
+
+        function getAcceptedTestsForSelectedCountries() {
+            const selected = [...document.querySelectorAll('input[name="country"]:checked')].map(c => c.value);
+            if (selected.length === 0) return ['ielts', 'pte', 'japanese']; // nothing picked yet — show all
+            const accepted = new Set();
+            selected.forEach(country => {
+                (COUNTRY_ACCEPTED_TESTS[country] || ['ielts']).forEach(t => accepted.add(t));
+            });
+            return [...accepted];
+        }
+
+        function updateLanguagePillVisibility() {
+            const selectedCountries = [...document.querySelectorAll('input[name="country"]:checked')].map(c => c.value);
+            const accepted = getAcceptedTestsForSelectedCountries();
+            ['ielts', 'pte', 'japanese'].forEach(t => {
+                const pill = document.getElementById('pill-' + t);
+                if (!pill) return;
+                if (accepted.includes(t)) {
+                    pill.classList.remove('hidden');
+                } else {
+                    pill.classList.add('hidden');
+                    // If the currently active test is no longer accepted for the chosen
+                    // country/countries, clear the selection so the form stays consistent.
+                    if (activeTest === t) selectTest(t);
+                }
+            });
+
+            const note = document.getElementById('testAvailabilityNote');
+            if (note) {
+                const testLabels = { ielts: 'IELTS', pte: 'PTE Academic', japanese: 'Japanese Language' };
+                const shownLabels = accepted.map(t => testLabels[t]);
+                if (selectedCountries.length === 0) {
+                    note.textContent = 'Select your preferred country in Step 3 to see only the relevant test(s) here.';
+                } else {
+                    note.textContent = 'Based on ' + selectedCountries.join(', ') + ', the relevant test(s) are: ' + shownLabels.join(', ') + '.';
+                }
+            }
+        }
+
+        /* === LANGUAGE TEST ===
+           IELTS, PTE, and Japanese each reveal a follow-up block with a
+           Taken/Planning toggle; score fields only show when 'Taken' is picked.
+           The selected test also drives which payment recipient is shown in Step 5. */
         let activeTest = '';
         function selectTest(test) {
             document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('selected'));
-            ['ielts', 'pte', 'japanese'].forEach(t => { const b = document.getElementById('block-' + t); if (b) b.classList.add('hidden'); });
-            if (activeTest === test) { activeTest = ''; document.getElementById('selectedTest').value = ''; return; }
+            ['ielts', 'pte', 'japanese'].forEach(t => document.getElementById('block-' + t).classList.add('hidden'));
+            if (activeTest === test) { activeTest = ''; document.getElementById('selectedTest').value = ''; applyRecipientToPaymentUI(); return; }
             activeTest = test;
             document.getElementById('selectedTest').value = test;
             const pill = document.getElementById('pill-' + test);
             if (pill) pill.classList.add('selected');
-            if (test !== 'none') {
-                const block = document.getElementById('block-' + test);
-                if (block) block.classList.remove('hidden');
-                if (test === 'japanese') { const lvl = document.getElementById('jlptLevel'); if (lvl && !lvl.value) lvl.value = 'N5 (Beginner)'; }
+            if (test === 'ielts') {
+                document.getElementById('block-ielts').classList.remove('hidden');
+                const checked = document.querySelector('input[name="ieltsStatus"]:checked');
+                toggleIeltsStatus(checked ? checked.value : 'Planning');
+            } else if (test === 'pte') {
+                document.getElementById('block-pte').classList.remove('hidden');
+                const checked = document.querySelector('input[name="pteStatus"]:checked');
+                togglePteStatus(checked ? checked.value : 'Planning');
+            } else if (test === 'japanese') {
+                document.getElementById('block-japanese').classList.remove('hidden');
+                const checked = document.querySelector('input[name="jlptStatus"]:checked');
+                toggleJlptStatus(checked ? checked.value : 'Planning');
             }
+            applyRecipientToPaymentUI();
+        }
+
+        function toggleIeltsStatus(val) {
+            document.getElementById('ieltsScoreDetails').classList.toggle('open', val === 'Taken');
+        }
+        function togglePteStatus(val) {
+            document.getElementById('pteScoreDetails').classList.toggle('open', val === 'Taken');
+        }
+        function toggleJlptStatus(val) {
+            document.getElementById('jlptScoreDetails').classList.toggle('open', val === 'Taken');
         }
 
         /* === PAYMENT METHOD === */
@@ -1395,6 +1655,7 @@
             document.getElementById('pay-prompt').classList.add('hidden');
             document.getElementById('pmCard-' + method).classList.add('active');
             document.getElementById('pay-' + method).classList.remove('hidden');
+            if (method === 'esewa' || method === 'bank') applyRecipientToPaymentUI();
         }
 
         /* === TOGGLES === */
@@ -1405,7 +1666,13 @@
         let currentStep = 1;
         const TOTAL = 6;
         function goToStep(n) { if (n < currentStep) switchStep(n); }
-        function nextStep(from) { if (!validateStep(from)) return; if (from === 5) buildReview(); switchStep(from + 1); }
+        function nextStep(from) {
+            if (!validateStep(from)) return;
+            if (from === 3) updateLanguagePillVisibility();
+            if (from === 4) applyRecipientToPaymentUI();
+            if (from === 5) buildReview();
+            switchStep(from + 1);
+        }
         function prevStep(from) { switchStep(from - 1); }
         function switchStep(n) {
             document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
@@ -1464,6 +1731,8 @@
             const testLabel = activeTest ? ({ ielts: 'IELTS', pte: 'PTE Academic', japanese: 'Japanese Language', none: 'None / Not yet taken' }[activeTest] || activeTest) : 'None';
             const payMethod = document.querySelector('.pay-method-card.active')?.querySelector('p.font-semibold')?.textContent || 'Not selected';
             const payStatus = document.querySelector('input[name="payStatus"]:checked')?.value || 'Not specified';
+            const recipientKey = getRecipientKeyForTest(activeTest);
+            const recipientLabel = PAYMENT_RECIPIENTS[recipientKey].label;
 
             const sections = [
                 {
@@ -1500,15 +1769,20 @@
                 },
                 {
                     title: 'Language Test', rows: [
-                        ['Test Selected', testLabel], ['IELTS Score', v('ieltsScore') || '—'],
-                        ['PTE Score', v('pteScore') || '—'], ['Japanese Level', v('jlptLevel') || '—'],
+                        ['Test Selected', testLabel],
+                        ['IELTS Status', activeTest === 'ielts' ? (rv('ieltsStatus') || 'Planning to Take') : '—'],
+                        ['IELTS Score', activeTest === 'ielts' ? (v('ieltsScore') || '—') : '—'],
+                        ['PTE Status', activeTest === 'pte' ? (rv('pteStatus') || 'Planning to Take') : '—'],
+                        ['PTE Score', activeTest === 'pte' ? (v('pteScore') || '—') : '—'],
+                        ['Japanese Test Status', activeTest === 'japanese' ? (rv('jlptStatus') || 'Planning to Take') : '—'],
+                        ['Japanese Level', activeTest === 'japanese' ? (v('jlptLevel') || '—') : '—'],
                         ['Visa Refusal', rv('visaRefusal') || 'No'], ['Referral', v('referral') || '—']
                     ]
                 },
                 {
                     title: 'Payment', rows: [
                         ['Book Fee', 'Rs. 500'], ['Admission Fee', 'Rs. 500'], ['Total', 'Rs. 1,000'],
-                        ['Payment Method', payMethod], ['Payment Status', payStatus]
+                        ['Payment Method', payMethod], ['Payment Account', recipientLabel], ['Payment Status', payStatus]
                     ]
                 }
             ];
@@ -1554,6 +1828,8 @@
     hideError();
 
     const countries = [...document.querySelectorAll('input[name="country"]:checked')].map(c => c.value);
+    const recipientKey = getRecipientKeyForTest(activeTest);
+    const recipientLabel = PAYMENT_RECIPIENTS[recipientKey].label;
 
     const payload = {
         /* Personal */
@@ -1577,14 +1853,18 @@
         preferred_intake: v('intake'), budget_npr: v('budget'), university_preference: v('uniPreference'),
         /* Language */
         test_selected: activeTest,
+        ielts_status: activeTest === 'ielts' ? rv('ieltsStatus') : '',
         ielts_score: v('ieltsScore'), ielts_date: v('ieltsDate') || null,
         ielts_listening: v('ieltsL'), ielts_reading: v('ieltsR'), ielts_writing: v('ieltsW'), ielts_speaking: v('ieltsS'),
+        pte_status: activeTest === 'pte' ? rv('pteStatus') : '',
         pte_score: v('pteScore'), pte_date: v('pteDate') || null,
+        jlpt_status: activeTest === 'japanese' ? rv('jlptStatus') : '',
         jlpt_type: v('jlptType'), jlpt_level: v('jlptLevel'), jlpt_score: v('jlptScore'), jlpt_date: v('jlptDate') || null,
         /* Additional */
         visa_refusal: rv('visaRefusal'), referral_source: v('referral'), message: v('message'),
         /* Payment */
         payment_method: selectedPayMethod, payment_status: rv('payStatus'),
+        payment_recipient: recipientLabel,
         txn_id: v('txnId') || v('bankTxnId'),
         book_fee: 500, admission_fee: 500, total_fee: 1000,
         status: 'New', registered_at: new Date().toISOString()
@@ -1624,10 +1904,16 @@
         function resetForm() {
             document.getElementById('successScreen').classList.add('hidden');
             document.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]),select,textarea').forEach(el => el.value = '');
+            document.querySelectorAll('input[name="country"]:checked').forEach(el => el.checked = false);
             activeTest = ''; selectedPayMethod = '';
             document.getElementById('selectedTest').value = '';
             document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('selected'));
-            ['ielts', 'pte', 'japanese'].forEach(t => { const b = document.getElementById('block-' + t); if (b) b.classList.add('hidden'); });
+            ['ielts', 'pte', 'japanese'].forEach(t => document.getElementById('block-' + t).classList.add('hidden'));
+            document.getElementById('ieltsScoreDetails').classList.remove('open');
+            document.getElementById('pteScoreDetails').classList.remove('open');
+            document.getElementById('jlptScoreDetails').classList.remove('open');
+            updateLanguagePillVisibility();
+            applyRecipientToPaymentUI();
             switchStep(1);
         }
 
@@ -1641,6 +1927,8 @@
             });
         })();
 
+        applyRecipientToPaymentUI();
+        updateLanguagePillVisibility();
         updateTabs(); updateProgress();
     </script>
 </body>
